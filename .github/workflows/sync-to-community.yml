@@ -15,12 +15,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure Git
+      - name: Replace 'AlpaslanDogan' with 'DATASANCE'
+        run: |
+          find . -type f -not -path "./.git/*" -exec sed -i 's/AlpaslanDogan/DATASANCE/g' {} +
+
+      - name: Commit replacements if any
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "No changes to commit."
+          else
+            git add .
+            git commit -m "ci: Replace 'AlpaslanDogan' with 'DATASANCE'"
+            git push origin master
+          fi
 
       - name: Push to iofog-community-repo
         run: |
-          git remote add target https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/alpaslan-datasance/iofog-community-repo.git
+          git remote add target https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/YOUR_USERNAME/iofog-community-repo.git
           git push target master --force
