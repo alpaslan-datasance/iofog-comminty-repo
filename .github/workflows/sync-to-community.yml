@@ -1,4 +1,4 @@
-name: Sync to iofog-community-repo
+name: Sync to iofog-comminty-repo
 
 on:
   push:
@@ -22,12 +22,12 @@ jobs:
         run: |
           find . -type f -not -path "./.git/*" -exec sed -i 's/AlpaslanDogan/DATASANCE/g' {} +
 
-      - name: Commit replacements if any (excluding this workflow file)
+      - name: Commit replacements if any (excluding workflow file)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Sadece workflow dosyası hariç değişiklik varsa commit at
+          # Eğer değişiklik varsa ve workflow dosyası dışındaysa commit et
           if git diff --quiet -- . ':(exclude).github/workflows/sync-to-community.yml'; then
             echo "No changes to commit."
           else
@@ -36,7 +36,7 @@ jobs:
             git push origin main
           fi
 
-      - name: Push to iofog-community-repo
+      - name: Push to iofog-comminty-repo
         run: |
           git remote add target https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/alpaslan-datasance/iofog-comminty-repo.git
           git push target main --force
