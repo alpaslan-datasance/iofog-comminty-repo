@@ -22,15 +22,19 @@ jobs:
         run: |
           find . -type f -not -path "./.git/*" -exec sed -i 's/AlpaslanDogan/DATASANCE/g' {} +
 
-     - name: Commit replacements if any
+      - name: Commit replacements if any (excluding this workflow file)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git diff -- . ':(exclude).github/workflows/sync-to-community.yml' --quiet && echo "No changes to commit." || (
+
+          # Sadece workflow dosyası hariç değişiklik varsa commit at
+          if git diff --quiet -- . ':(exclude).github/workflows/sync-to-community.yml'; then
+            echo "No changes to commit."
+          else
             git add . ':!./.github/workflows/sync-to-community.yml'
             git commit -m "ci: Replace 'AlpaslanDogan' with 'DATASANCE'"
             git push origin main
-          )
+          fi
 
       - name: Push to iofog-community-repo
         run: |
