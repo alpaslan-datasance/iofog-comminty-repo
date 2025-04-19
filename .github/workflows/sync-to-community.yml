@@ -22,17 +22,15 @@ jobs:
         run: |
           find . -type f -not -path "./.git/*" -exec sed -i 's/AlpaslanDogan/DATASANCE/g' {} +
 
-      - name: Commit replacements if any
+     - name: Commit replacements if any
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet; then
-            echo "No changes to commit."
-          else
-            git add .
+          git diff -- . ':(exclude).github/workflows/sync-to-community.yml' --quiet && echo "No changes to commit." || (
+            git add . ':!./.github/workflows/sync-to-community.yml'
             git commit -m "ci: Replace 'AlpaslanDogan' with 'DATASANCE'"
             git push origin main
-          fi
+          )
 
       - name: Push to iofog-community-repo
         run: |
