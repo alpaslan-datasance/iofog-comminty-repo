@@ -3,4 +3,4 @@ potctl-local-repo
 
 test senaryo
 
-DATASANCE
+AlpaslanDogan
