@@ -1,0 +1,26 @@
+name: Sync to iofog-community-repo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push to iofog-community-repo
+        run: |
+          git remote add target https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/alpaslan-datasance/iofog-community-repo.git
+          git push target master --force
