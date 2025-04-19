@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.PUSH_TOKEN }}  # Added token for authentication
 
       - name: Replace 'AlpaslanDogan' with 'DATASANCE'
         run: |
