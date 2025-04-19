@@ -3,7 +3,7 @@ name: Sync to iofog-community-repo
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   sync:
@@ -28,10 +28,10 @@ jobs:
           else
             git add .
             git commit -m "ci: Replace 'AlpaslanDogan' with 'DATASANCE'"
-            git push origin master
+            git push origin main
           fi
 
       - name: Push to iofog-community-repo
         run: |
           git remote add target https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/alpaslan-datasance/iofog-comminty-repo.git
-          git push target master --force
+          git push target main --force
